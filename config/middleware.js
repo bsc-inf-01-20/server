@@ -1,20 +1,22 @@
-const helmet = require('helmet');
 const cors = require('cors');
-const morgan = require('morgan');
+const helmet = require('helmet');
 const express = require('express');
 
 module.exports = (app) => {
-  // Security headers
-  app.use(helmet());
-
-  // CORS configuration with allowed origins
+  // 1. COMPLETELY DISABLE CORS (TEMPORARY ONLY)
   app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000']
+    origin: '*',                 // Allow all origins
+    methods: '*',               // Allow all methods
+    allowedHeaders: '*',        // Allow all headers
+    preflightContinue: false,
+    optionsSuccessStatus: 204
   }));
 
-  // Body parser for JSON requests
-  app.use(express.json());
+  // 2. Disable Helmet's CORS restrictions
+  app.use(helmet({
+    crossOriginResourcePolicy: false
+  }));
 
-  // HTTP request logging (more detailed in production)
-  app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+  // 3. Other middleware
+  app.use(express.json());
 };

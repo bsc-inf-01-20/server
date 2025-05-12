@@ -1,6 +1,5 @@
 # Node.js
 node_modules/
-.env
 dist/
 
 # macOS
@@ -8,3 +7,4 @@ dist/
 
 # Logs
 *.log
+.vercel
