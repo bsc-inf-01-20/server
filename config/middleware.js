@@ -1,20 +1,31 @@
-const cors = require('cors');
+// config/middleware.js
 const helmet = require('helmet');
 const express = require('express');
 
 module.exports = (app) => {
-  // 1. COMPLETELY DISABLE CORS (TEMPORARY ONLY)
-  app.use(cors({
-    origin: '*',                 // Allow all origins
-    methods: '*',               // Allow all methods
-    allowedHeaders: '*',        // Allow all headers
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-  }));
+  // 1. Force CORS on All Responses
+  app.use((req, res, next) => {
+    const allowedOrigins = ['http://localhost:3000', 'https://your-vercel-app.vercel.app'];
+    const origin = req.headers.origin;
+    
+    if (allowedOrigins.includes(origin)) {
+      res.header('Access-Control-Allow-Origin', origin);
+    }
+    
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
 
-  // 2. Disable Helmet's CORS restrictions
+    next();
+  });
+
+  // 2. Use Helmet without CORS restrictions
   app.use(helmet({
-    crossOriginResourcePolicy: false
+    crossOriginResourcePolicy: { policy: 'cross-origin' }
   }));
 
   // 3. Other middleware

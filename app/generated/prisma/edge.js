@@ -144,7 +144,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -154,12 +154,11 @@ const config = {
     "db"
   ],
   "activeProvider": "mongodb",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "mongodb+srv://mcdonaldmwamlima994:orEYjMQhQMjX3m95@cluster0.e2ztdvx.mongodb.net/schoolAccessDB?retryWrites=true&w=majority&appName=Cluster0"
       }
     }
   },
