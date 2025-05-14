@@ -26,5 +26,6 @@ model Route {
   location          Json
   overviewPolyline  String
   createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
