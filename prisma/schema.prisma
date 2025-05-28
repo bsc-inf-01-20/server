@@ -1,31 +1,41 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Route {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  schoolId          String
-  schoolName        String
-  travelMode        String
-  place             String
-  amenityType       String
-  distance          Float
-  duration          Int
-  schoolCoords      Json
-  placeCoords       Json
-  location          Json
-  overviewPolyline  String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-}
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  schoolId         String
+  schoolName       String
+  travelMode       String
+  place            String
+  amenityType      String
+  distance         Float
+  duration         Int
+  schoolCoords     Json
+  placeCoords      Json
+  location         Json
+  overviewPolyline String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  division         String
+  district         String
+  zone             String
+ 
+  // Indexes
+  @@index([schoolId], name: "schoolId_index")
+  @@index([amenityType], name: "amenityType_index")
+  @@index([travelMode], name: "travelMode_index")
+  @@index([createdAt], name: "createdAt_index")
+  @@index([division], name: "division_index")       
+  @@index([district], name: "district_index")       
+  @@index([zone], name: "zone_index")               
 
+  // Compound indexes
+  @@index([schoolId, travelMode], name: "schoolId_travelMode_compound")
+  @@index([schoolId, amenityType], name: "schoolId_amenityType_compound")
+}
