@@ -5,7 +5,7 @@ const express = require('express');
 module.exports = (app) => {
   // 1. Force CORS on All Responses
   app.use((req, res, next) => {
-    const allowedOrigins = ['http://localhost:3000', 'https://your-vercel-app.vercel.app'];
+    const allowedOrigins = ['http://localhost:3000', 'https://your-vercel-app.vercel.app', "https://project.ccdev.org"];
     const origin = req.headers.origin;
     
     if (allowedOrigins.includes(origin)) {
