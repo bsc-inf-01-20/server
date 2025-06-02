@@ -74,3 +74,41 @@ model StudentRoute {
   @@index([schoolId, travelMode], name: "school_travelMode_compound")
   @@index([division, district], name: "division_district_compound")
 }
+
+model TeacherRoute {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  teacherId        String   // Teacher DHIS2 ID
+  teacherName      String   // Teacher display name
+  teacherCode      String?  // Teacher code/number
+  specialization   String?  // Teacher's specialization
+  schoolId         String   // School DHIS2 ID
+  schoolName       String
+  travelMode       String   // walking, driving, etc.
+  distance         Float    // in meters
+  duration         Int      // in seconds
+  coordinates      Json     // { teacher: [lng, lat], school: [lng, lat] }
+  polyline         String?  // Optional route polyline
+  academicYear     String   // e.g. "2023-2024"
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  // Geographical hierarchy
+  division         String
+  district         String
+  zone             String
+
+  // Indexes for efficient querying
+  @@index([teacherId], name: "teacherId_index")
+  @@index([schoolId], name: "schoolId_index")
+  @@index([travelMode], name: "travelMode_index")
+  @@index([academicYear], name: "academicYear_index")
+  @@index([division], name: "division_index")
+  @@index([district], name: "district_index")
+  @@index([zone], name: "zone_index")
+  @@index([createdAt], name: "createdAt_index")
+
+  // Compound indexes
+  @@index([teacherId, schoolId], name: "teacher_school_compound")
+  @@index([schoolId, travelMode], name: "school_travelMode_compound")
+  @@index([division, district], name: "division_district_compound")
+}

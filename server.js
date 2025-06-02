@@ -3,9 +3,13 @@ const express = require('express');
 const app = express();
 const apiRoutes = require('./routes/apiRoutes');
 const middleware = require('./config/middleware');
+const { swaggerUi, swaggerSpec } = require('./swagger');
 
 // Initialize middleware
 middleware(app);
+
+// API Docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // API Routes
 app.use('/api', apiRoutes);
@@ -19,5 +23,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-// Export the app for Vercel (DO NOT use app.listen for Vercel)
 module.exports = app;
